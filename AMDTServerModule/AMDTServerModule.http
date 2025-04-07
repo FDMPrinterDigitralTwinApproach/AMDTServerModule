@@ -1,0 +1,6 @@
+@AMDTServerModule_HostAddress = http://localhost:5058
+
+GET {{AMDTServerModule_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
