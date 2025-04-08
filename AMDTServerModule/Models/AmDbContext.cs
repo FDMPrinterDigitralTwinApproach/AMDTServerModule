@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AMDTServerModule.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace AMDTServerModule.Models
 {
@@ -10,6 +11,6 @@ namespace AMDTServerModule.Models
             this.ChangeTracker.LazyLoadingEnabled = false;
 
         }
-       // public DbSet<MobileUsers> MobileUsers { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }

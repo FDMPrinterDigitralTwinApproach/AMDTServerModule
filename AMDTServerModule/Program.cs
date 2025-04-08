@@ -43,7 +43,6 @@ builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.Configure<IISServerOptions>(options =>
 {
     options.AutomaticAuthentication = false;
@@ -69,7 +68,7 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddSwaggerGen(option =>
 {
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Barida Portal API", Version = "v1" });
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Barida Portal API",  Version = "v1" });
     option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
@@ -111,7 +110,7 @@ builder.Services.AddResponseCompression(options =>
     options.EnableForHttps = true;
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes;
 });
-builder.Services.AddHostedService<MyBackgroundService>();
+//builder.Services.AddHostedService<MyBackgroundService>();
 builder.Services.AddSingleton<IAuthorizationHandler, RolesAuthorizationHandler>();
 
 var app = builder.Build();
@@ -142,7 +141,7 @@ public class MyBackgroundService : BackgroundService
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-           
+            Thread.Sleep(10000);
         }
 
     }
