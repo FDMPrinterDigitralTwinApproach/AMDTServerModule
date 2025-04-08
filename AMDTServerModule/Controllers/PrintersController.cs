@@ -4,46 +4,40 @@ using AMDTServerModule.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AMDTServerModule.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerRepository<Users, AmDbContext>
+    public class PrintersController : ControllerRepository<Printers, AmDbContext>
     {
         AmDbContext _context;
-        public UsersController(AmDbContext context) : base(context)
+        public PrintersController(AmDbContext context) : base(context)
         {
             _context = context;
         }
-
+        [Authorize]
         [HttpPost]
-        public override async Task<ActionResult> Create(Users entity)
+        public override async Task<ActionResult> Create(Printers entity)
         {
-            var userList = await _context.Set<Users>().Where(x => x.Username.Equals(entity.Username)).ToListAsync();
-            if(userList.Count > 0)
-            {
-                return StatusCode(400, "Var Olan Kullanıcı Adı ile Kayıt Olunamaz");
-            }
-            entity.UserPassword = BCrypt.Net.BCrypt.EnhancedHashPassword(entity.UserPassword, 13);
+
             return await base.Create(entity);
         }
         [Authorize]
         [HttpGet]
-        public override async Task<ActionResult<IEnumerable<Users>>> Get()
+        public override async Task<ActionResult<IEnumerable<Printers>>> Get()
         {
             return await base.Get();
         }
         [Authorize]
         [HttpGet("{id}")]
-        public override async Task<ActionResult<Users>> Get(int id)
+        public override async Task<ActionResult<Printers>> Get(int id)
         {
             return await base.Get(id);
         }
         [Authorize]
         [HttpPut]
-        public override async Task<ActionResult> Update(Users entity)
+        public override async Task<ActionResult> Update(Printers entity)
         {
             return await base.Update(entity);
         }

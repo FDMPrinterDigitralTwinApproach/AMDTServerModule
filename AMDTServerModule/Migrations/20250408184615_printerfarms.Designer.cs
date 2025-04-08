@@ -4,6 +4,7 @@ using AMDTServerModule.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AMDTServerModule.Migrations
 {
     [DbContext(typeof(AmDbContext))]
-    partial class AmDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250408184615_printerfarms")]
+    partial class printerfarms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,42 +55,6 @@ namespace AMDTServerModule.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("PrinterFarms");
-                });
-
-            modelBuilder.Entity("AMDTServerModule.Entities.Printers", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
-
-                    b.Property<bool>("Aktif")
-                        .HasColumnType("bit")
-                        .HasColumnName("aktif");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created-at");
-
-                    b.Property<int>("CreatedID")
-                        .HasColumnType("int")
-                        .HasColumnName("created_id");
-
-                    b.Property<Guid>("SpesificID")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("guid");
-
-                    b.Property<int>("TipID")
-                        .HasColumnType("int")
-                        .HasColumnName("farm_id");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("TipID");
-
-                    b.ToTable("Printers");
                 });
 
             modelBuilder.Entity("AMDTServerModule.Entities.Users", b =>
@@ -130,22 +97,6 @@ namespace AMDTServerModule.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("AMDTServerModule.Entities.Printers", b =>
-                {
-                    b.HasOne("AMDTServerModule.Entities.PrinterFarms", "PrinterFarms")
-                        .WithMany("Printers")
-                        .HasForeignKey("TipID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PrinterFarms");
-                });
-
-            modelBuilder.Entity("AMDTServerModule.Entities.PrinterFarms", b =>
-                {
-                    b.Navigation("Printers");
                 });
 #pragma warning restore 612, 618
         }

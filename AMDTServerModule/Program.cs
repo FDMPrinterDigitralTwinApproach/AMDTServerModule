@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using System.IO.Compression;
 using System.Text;
 
+using static MyBackgroundService;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -110,7 +111,7 @@ builder.Services.AddResponseCompression(options =>
     options.EnableForHttps = true;
     options.MimeTypes = ResponseCompressionDefaults.MimeTypes;
 });
-//builder.Services.AddHostedService<MyBackgroundService>();
+builder.Services.AddHostedService<MyBackgroundService>();
 builder.Services.AddSingleton<IAuthorizationHandler, RolesAuthorizationHandler>();
 
 var app = builder.Build();
@@ -136,12 +137,20 @@ public class MyBackgroundService : BackgroundService
     {
 
     }
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+
+        var task2 = Task.Run(() => GatheringData(stoppingToken), stoppingToken);
+
+        await Task.WhenAll( task2);
+    }
+
+    private async Task GatheringData(CancellationToken stoppingToken)
     {
         while (!stoppingToken.IsCancellationRequested)
         {
-            Thread.Sleep(10000);
+            Console.WriteLine("ALo");
+            Thread.Sleep(1000);
         }
 
     }
