@@ -71,7 +71,7 @@ namespace AMDTServerModule.Controllers
                         var token = tokenHandler.CreateToken(tokenDescriptor);
                         var jwtToken = tokenHandler.WriteToken(token);
                         var stringToken = tokenHandler.WriteToken(token);
-                        return Ok(new { UserID = user[0].ID, Username = user[0].Username, AuthAPI = stringToken });
+                        return Ok(new { UserID = user[0].ID, Username = user[0].Username, AuthAPI = stringToken, success = true });
                     }
                     else
                     {
