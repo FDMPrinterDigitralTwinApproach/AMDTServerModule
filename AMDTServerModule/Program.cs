@@ -1,3 +1,4 @@
+using AMDTServerModule.Helpers;
 using AMDTServerModule.MiddleWares;
 using AMDTServerModule.Models;
 using AspNetCoreRateLimit;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Prometheus;
 using System.IO.Compression;
 using System.Text;
 
@@ -32,7 +34,7 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
         {
             Endpoint = "*",
             Limit = 50, // 10 saniyede 50 istek
-            Period = "10s"
+            Period = "1s"
         }
     };
 });
@@ -41,6 +43,10 @@ builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
 builder.Services.AddMemoryCache();
+
+builder.Services.AddMetrics(); // for measure metrics
+
+//builder.Services.AddScoped<MetricReporter>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -122,12 +128,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseHttpMetrics(); // for measure metrics default
+//app.UseMiddleware<MetricMiddleWare>();
+app.UseMetricServer();
 app.UseHttpsRedirection();
-
+app.UseRouting();
 app.UseAuthorization();
+app.MapMetrics();
 
 app.MapControllers();
+
 
 app.Run("http://*:5100/");
 public class MyBackgroundService : BackgroundService
@@ -150,7 +160,7 @@ public class MyBackgroundService : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             Console.WriteLine("ALo");
-            Thread.Sleep(1000);
+            Thread.Sleep(100000);
         }
 
     }
