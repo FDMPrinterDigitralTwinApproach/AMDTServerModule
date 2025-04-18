@@ -4,6 +4,7 @@ using AMDTServerModule.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AMDTServerModule.Migrations
 {
     [DbContext(typeof(AmDbContext))]
-    partial class AmDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250418091543_createdbytoprinterfarmstable")]
+    partial class createdbytoprinterfarmstable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,11 +74,6 @@ namespace AMDTServerModule.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("aktif");
 
-                    b.Property<string>("BrandName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("brand_name");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2")
                         .HasColumnName("created-at");
@@ -87,14 +85,6 @@ namespace AMDTServerModule.Migrations
                     b.Property<Guid>("SpesificID")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
-
-                    b.Property<double>("TableX")
-                        .HasColumnType("float")
-                        .HasColumnName("table_X");
-
-                    b.Property<double>("TableY")
-                        .HasColumnType("float")
-                        .HasColumnName("table_Y");
 
                     b.Property<int>("TipID")
                         .HasColumnType("int")

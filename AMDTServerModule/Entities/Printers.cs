@@ -10,6 +10,14 @@ namespace AMDTServerModule.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
+        [Column("brand_name")]
+        public string BrandName { get; set; } = string.Empty;
+
+        [Column("table_X")]
+        public double TableX { get; set; }
+
+        [Column("table_Y")]
+        public double TableY { get; set; }
         [Column("guid")]
         public Guid SpesificID { get; set; } 
       

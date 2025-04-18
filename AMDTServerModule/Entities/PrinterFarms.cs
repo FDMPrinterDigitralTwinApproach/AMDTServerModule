@@ -20,6 +20,9 @@ namespace AMDTServerModule.Entities
         [Column("created_at")]
         public DateTime CreatedAt { get; set; }
 
+        [Column("created_by")]
+        public int CreatedBy { get; set; }
+
         public virtual ICollection<Printers>? Printers { get; set; }
     }
 }

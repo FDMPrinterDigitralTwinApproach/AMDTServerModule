@@ -128,9 +128,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpMetrics(); // for measure metrics default
+app.UseCors("AllowAnyOrigin");
+//app.UseHttpMetrics(); // for measure metrics default
 //app.UseMiddleware<MetricMiddleWare>();
-app.UseMetricServer();
+//app.UseMetricServer();
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
