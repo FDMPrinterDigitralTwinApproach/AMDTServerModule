@@ -1,3 +1,4 @@
+using AMDTServerModule.Controllers;
 using AMDTServerModule.Helpers;
 using AMDTServerModule.MiddleWares;
 using AMDTServerModule.Models;
@@ -119,7 +120,10 @@ builder.Services.AddResponseCompression(options =>
 });
 builder.Services.AddHostedService<MyBackgroundService>();
 builder.Services.AddSingleton<IAuthorizationHandler, RolesAuthorizationHandler>();
-
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -140,6 +144,7 @@ app.MapMetrics();
 app.MapControllers();
 
 
+app.MapHub<SignalRTagController>("tagshub");
 app.Run("http://*:5100/");
 public class MyBackgroundService : BackgroundService
 {

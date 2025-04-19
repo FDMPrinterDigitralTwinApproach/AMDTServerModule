@@ -23,8 +23,19 @@ namespace AMDTServerModule.Controllers
         [HttpPost]
         public override async Task<ActionResult> Create(PrinterFarms entity)
         {
-         
-            return await base.Create(entity);
+            string? token = HttpContext.GetTokenAsync("access_token").Result;
+            if (token != null)
+            {
+
+                var handler = new JwtSecurityTokenHandler();
+
+                var jsonToken = handler.ReadToken(token) as JwtSecurityToken;
+                var userID = Convert.ToInt32(jsonToken.Claims.First(claim => claim.Type == "sub").Value);
+                entity.CreatedBy = userID;
+
+                return await base.Create(entity);
+            }
+            return StatusCode(401);
         }
         [Authorize]
         [HttpGet]
